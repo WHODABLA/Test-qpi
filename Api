@@ -1,0 +1,24 @@
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function handleRequest(request) {
+  const url = new URL(request.url)
+  const num = url.searchParams.get('num')
+
+  if (!num) {
+    return new Response('Missing "num" parameter', { status: 400 })
+  }
+
+  // Example data (replace with your real logic)
+  const data = {
+    "1234567890": { name: "John Doe", location: "India" },
+    "9876543210": { name: "Jane Doe", location: "USA" }
+  }
+
+  const result = data[num] || "Number not found"
+
+  return new Response(JSON.stringify(result), {
+    headers: { "Content-Type": "application/json" }
+  })
+}
